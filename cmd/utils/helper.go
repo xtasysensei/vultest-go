@@ -1,4 +1,4 @@
-package lib
+package utils
 
 type Agent struct {
 	UserAgent string
