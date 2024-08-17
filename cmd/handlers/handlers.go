@@ -1,7 +1,8 @@
 package handlers
 
 import (
-	"strings"
+	"log"
+	"strconv"
 
 	"github.com/xtasysensei/vultest/cmd/utils"
 )
@@ -36,6 +37,15 @@ func GeneratePayload(eff int) (string, error) {
 	return "", nil
 }
 
-func ParseHtml(html string) {
-	doc, err := html.Parse(strings.NewReader(html))
+func GetFormMethod(url string) {
+	forms, err := GetForms(url)
+	if err != nil {
+		log.Fatalf("url connection err: %v\n", err)
+	}
+	for _, form := range forms {
+		if form.Method == "post" {
+			utils.Warning("Target have form with POST method: " +
+				utils.C + url+"/"+ form.Action))
+		}
+	}
 }
