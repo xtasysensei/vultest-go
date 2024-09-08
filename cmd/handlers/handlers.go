@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"log"
-	"strconv"
 
+	"github.com/anaskhan96/soup"
 	"github.com/xtasysensei/vultest/cmd/utils"
 )
 
@@ -37,15 +37,49 @@ func GeneratePayload(eff int) (string, error) {
 	return "", nil
 }
 
-func GetFormMethod(url string) {
-	forms, err := GetForms(url)
+type Keys struct {
+	KeyType string
+	KeyName string
+}
+
+func GetFormMethod(url string, payload string) {
+	resp, err := soup.Get(url)
 	if err != nil {
-		log.Fatalf("url connection err: %v\n", err)
+		log.Fatalf("error connection to url %s: %v", url, err)
 	}
+	doc := soup.HTMLParse(resp)
+	forms := doc.FindAll("forms")
 	for _, form := range forms {
-		if form.Method == "post" {
+		action := form.Attrs()["action"]
+		method := form.Attrs()["method"]
+		if method == "post" {
 			utils.Warning("Target have form with POST method: " +
-				utils.C + url+"/"+ form.Action))
+				utils.C + url + "/" + action)
+			utils.Info("Collecting form input key.....")
+		}
+		var keys []Keys
+		inputAreas := form.FindAll("input", "textarea")
+		for _, inputArea := range inputAreas {
+			keyType := inputArea.Attrs()["type"]
+			keyName := inputArea.Attrs()["name"]
+			if keyType == "submit" {
+				utils.Info("Form key name: " + utils.G + keyName + utils.N + " value: " + utils.G + "<Submit Confirm>")
+				key := Keys{
+					KeyType: keyType,
+					KeyName: keyName,
+				}
+				keys = append(keys, key)
+
+			} else {
+				utils.Info("Form key name: " + utils.G +
+					keyName + utils.N + " value: " + utils.G + payload)
+				key := Keys{
+					KeyType: keyType,
+					KeyName: payload,
+				}
+				keys = append(keys, key)
+			}
+			return keys
 		}
 	}
 }

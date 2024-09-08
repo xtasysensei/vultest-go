@@ -3,13 +3,13 @@ module github.com/xtasysensei/vultest
 go 1.22
 
 require (
+	github.com/anaskhan96/soup v1.2.5
 	github.com/gocolly/colly v1.2.0
 	github.com/spf13/cobra v1.8.1
 )
 
 require (
 	github.com/PuerkitoBio/goquery v1.9.2 // indirect
-	github.com/anaskhan96/soup v1.2.5 // indirect
 	github.com/andybalholm/cascadia v1.3.2 // indirect
 	github.com/antchfx/htmlquery v1.3.2 // indirect
 	github.com/antchfx/xmlquery v1.4.1 // indirect
