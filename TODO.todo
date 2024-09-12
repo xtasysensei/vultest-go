@@ -1,0 +1,9 @@
+[] Concurrency: Implemente a worker pool with a configurable number of workers.
+[] Error handling: Replace fatal error logging with more graceful error reporting.
+[] Rate limiting: research on rate limiting
+[] Depth control: Research on changing from recursive to iterative approach using a queue.
+[] URL parsing: Improved URL joining and filtering logic to handle edge cases better.
+
+[] work on get and getform functions
+[] add flags to the root and scan files
+[] integrate it with the cobra-cli app

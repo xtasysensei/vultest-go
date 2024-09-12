@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"fmt"
+	"log"
 )
 
 const (
@@ -16,13 +16,13 @@ const (
 )
 
 func Info(text string) {
-	fmt.Println("[" + Y + "*" + N + "] [" + G + "INFO" + N + "] " + text)
+	log.Println("[" + Y + "*" + N + "] [" + G + "INFO" + N + "] " + text)
 }
 
 func Warning(text string) {
-	fmt.Println("[" + Y + "+" + N + "] [" + Y + "WARNING" + N + "] " + text)
+	log.Println("[" + Y + "+" + N + "] [" + Y + "WARNING" + N + "] " + text)
 }
 
 func High(text string) {
-	fmt.Println("[" + Y + "-" + N + "] [" + R + "CRITICAL" + N + "] " + text)
+	log.Println("[" + Y + "-" + N + "] [" + R + "CRITICAL" + N + "] " + text)
 }
