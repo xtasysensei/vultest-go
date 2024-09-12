@@ -18,10 +18,8 @@ func Crawler(baseURL string, depth int, wg *sync.WaitGroup, mu *sync.Mutex) {
 
 	urls, err := getLinks(baseURL, visitedURL)
 	if err != nil {
-		log.Fatalf("failed to get urls from %s: %v ", baseURL, err)
-	}
-	for _, lin := range urls {
-		fmt.Println(lin)
+		log.Printf("failed to get urls from %s: %v", baseURL, err)
+		return
 	}
 
 	if len(urls) > 0 {
@@ -30,7 +28,7 @@ func Crawler(baseURL string, depth int, wg *sync.WaitGroup, mu *sync.Mutex) {
 			mu.Lock()
 			if visitedURL[singleURL] {
 				mu.Unlock()
-				continue // Skip this URL if it has already been visited
+				continue
 			}
 			visitedURL[singleURL] = true
 			mu.Unlock()
@@ -50,7 +48,7 @@ func getLinks(baseURL string, visited map[string]bool) ([]string, error) {
 	var lst []string
 	resp, err := soup.Get(baseURL)
 	if err != nil {
-		log.Fatalf("failed to get %s with soup: %v", baseURL, err)
+		return nil, fmt.Errorf("failed to get %s with soup: %w", baseURL, err)
 	}
 	doc := soup.HTMLParse(resp)
 	links := doc.FindAll("a")
@@ -59,7 +57,8 @@ func getLinks(baseURL string, visited map[string]bool) ([]string, error) {
 
 		urlJoin, err := url.JoinPath(baseURL, linkURL)
 		if err != nil {
-			log.Fatalf("link join failed: %v", err)
+			log.Printf("link join failed: %v", err)
+			continue
 		}
 		if strings.HasPrefix(linkURL, "http://") || strings.HasPrefix(linkURL, "https://") {
 			continue
