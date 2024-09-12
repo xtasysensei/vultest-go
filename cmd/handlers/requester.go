@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 
@@ -48,7 +49,7 @@ type Keys struct {
 	Value   string
 }
 
-func GetFormMethod(childURL, payload string) ([]Keys, error) {
+func PostMethod(childURL, payload string) ([]Keys, error) {
 	resp, err := soup.Get(childURL)
 	if err != nil {
 		return nil, fmt.Errorf("error connecting to URL %s: %v", childURL, err)
@@ -142,7 +143,8 @@ func GetFormMethod(childURL, payload string) ([]Keys, error) {
 func ConnectAndRequest(childURL string) {
 	payload, err := generatePayload(utils.RandRange(1, 6))
 	if err != nil {
-		fmt.Errorf("failed to generate payload: %v", err)
+		log.Printf("failed to generate payload: %v", err)
+		return
 	}
-	GetFormMethod(childURL, payload)
+	_, _ = PostMethod(childURL, payload)
 }
