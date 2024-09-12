@@ -12,7 +12,7 @@ import (
 	"github.com/xtasysensei/vultest/cmd/utils"
 )
 
-func GeneratePayload(eff int) (string, error) {
+func generatePayload(eff int) (string, error) {
 	payloads := []string{
 		"prompt(5000/200)",
 		"alert(6000/3000)",
@@ -138,4 +138,11 @@ func GetFormMethod(childURL, payload string) ([]Keys, error) {
 	}
 
 	return allKeys, nil
+}
+func ConnectAndRequest(childURL string) {
+	payload, err := generatePayload(utils.RandRange(1, 6))
+	if err != nil {
+		fmt.Errorf("failed to generate payload: %v", err)
+	}
+	GetFormMethod(childURL, payload)
 }
