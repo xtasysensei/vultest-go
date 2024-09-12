@@ -1,66 +1,90 @@
 package handlers
 
 import (
-	"log"
-
-	"github.com/gocolly/colly"
 	"github.com/xtasysensei/vultest/cmd/utils"
 )
 
-type Forms struct {
-	Method string
-	Action string
-}
-
-var userAgentList []string = []string{
-	//Chrome
-	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36",
-	"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
-	"Mozilla/5.0 (Windows NT 5.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
-	"Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
-	"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36",
-	"Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36",
-	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
-	"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
-	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36",
-	"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36",
-	//Firefox
-	"Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1)",
-	"Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko",
-	"Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)",
-	"Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko",
-	"Mozilla/5.0 (Windows NT 6.2; WOW64; Trident/7.0; rv:11.0) like Gecko",
-	"Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
-	"Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0)",
-	"Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko",
-	"Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)",
-	"Mozilla/5.0 (Windows NT 6.1; Win64; x64; Trident/7.0; rv:11.0) like Gecko",
-	"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)",
-	"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)",
-	"Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)",
-}
-
-func GetForms(url string) ([]Forms, error) {
-
-	userAgent := userAgentList[utils.RandRange(0, len(userAgentList)-1)]
-
-	c := colly.NewCollector(
-		colly.UserAgent(userAgent),
-	)
-
-	var forms []Forms
-	c.OnHTML("form", func(e *colly.HTMLElement) {
-
-		form := Forms{
-			Method: e.Attr("method"),
-			Action: e.Attr("action"),
-		}
-		forms = append(forms, form)
-	})
-	err := c.Visit(url)
-	if err != nil {
-		log.Fatalf("error visiting url %s:%v ", url, err)
+func GeneratePayload(eff int) (string, error) {
+	payloads := []string{
+		"prompt(5000/200)",
+		"alert(6000/3000)",
+		"alert(document.cookie)",
+		"prompt(document.cookie)",
+		"console.log(5000/3000)",
 	}
-	return forms, nil
+
+	if eff == 1 {
+		return "<script/>" + payloads[utils.RandRange(0, 4)] + `<\script\>`, nil
+	} else if eff == 2 {
+		return `<\script/>` + payloads[utils.RandRange(0, 4)] + `<\\script>`, nil
+
+	} else if eff == 3 {
+		return `<\script\>` + payloads[utils.RandRange(0, 4)] + `<//script>`, nil
+	} else if eff == 4 {
+		return `<script>` + payloads[utils.RandRange(0, 4)] + `<\script/>`, nil
+
+	} else if eff == 5 {
+		return `<script>` + payloads[utils.RandRange(0, 4)] + `<//script>`, nil
+
+	} else if eff == 6 {
+		return `<script>` + payloads[utils.RandRange(0, 4)] + `</script>`, nil
+
+	}
+
+	return "", nil
+}
+
+type Keys struct {
+	KeyType string
+	KeyName string
+}
+
+// func GetFormMethod(url string, payload string) []Keys {
+// 	resp, err := soup.Get(url)
+// 	if err != nil {
+// 		log.Fatalf("error connection to url %s: %v", url, err)
+// 	}
+// 	doc := soup.HTMLParse(resp)
+// 	forms := doc.FindAll("forms")
+// 	for _, form := range forms {
+// 		action := form.Attrs()["action"]
+// 		method := form.Attrs()["method"]
+// 		if method == "post" {
+// 			utils.Warning("Target have form with POST method: " +
+// 				utils.C + url + "/" + action)
+// 			utils.Info("Collecting form input key.....")
+// 		}
+// 		var keys []Keys
+// 		inputAreas := form.FindAll("input", "textarea")
+// 		for _, inputArea := range inputAreas {
+// 			keyType := inputArea.Attrs()["type"]
+// 			keyName := inputArea.Attrs()["name"]
+// 			if keyType == "submit" {
+// 				utils.Info("Form key name: " + utils.G + keyName + utils.N + " value: " + utils.G + "<Submit Confirm>")
+// 				key := Keys{
+// 					KeyType: keyType,
+// 					KeyName: keyName,
+// 				}
+// 				keys = append(keys, key)
+
+// 			} else {
+// 				utils.Info("Form key name: " + utils.G +
+// 					keyName + utils.N + " value: " + utils.G + payload)
+// 				key := Keys{
+// 					KeyType: keyType,
+// 					KeyName: payload,
+// 				}
+// 				keys = append(keys, key)
+// 			}
+
+//			}
+//		}
+//		return keys
+//	}
+func PostMethod(body string, payload string) {
+
+}
+
+func ConnectAndRequest(singleURL string) {
 
 }
