@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 
@@ -12,7 +13,7 @@ import (
 	"github.com/xtasysensei/vultest/cmd/utils"
 )
 
-func GeneratePayload(eff int) (string, error) {
+func generatePayload(eff int) (string, error) {
 	payloads := []string{
 		"prompt(5000/200)",
 		"alert(6000/3000)",
@@ -48,7 +49,7 @@ type Keys struct {
 	Value   string
 }
 
-func GetFormMethod(childURL, payload string) ([]Keys, error) {
+func PostMethod(childURL, payload string) ([]Keys, error) {
 	resp, err := soup.Get(childURL)
 	if err != nil {
 		return nil, fmt.Errorf("error connecting to URL %s: %v", childURL, err)
@@ -102,6 +103,7 @@ func GetFormMethod(childURL, payload string) ([]Keys, error) {
 			}
 
 			// Construct form data
+			// TODO:change it from form data to all types of data
 			formData := url.Values{}
 			for _, key := range formKeys {
 				formData.Set(key.KeyName, key.Value)
@@ -138,4 +140,12 @@ func GetFormMethod(childURL, payload string) ([]Keys, error) {
 	}
 
 	return allKeys, nil
+}
+func ConnectAndRequest(childURL string) {
+	payload, err := generatePayload(utils.RandRange(1, 6))
+	if err != nil {
+		log.Printf("failed to generate payload: %v", err)
+		return
+	}
+	_, _ = PostMethod(childURL, payload)
 }

@@ -36,11 +36,10 @@ func Crawler(baseURL string, depth int, wg *sync.WaitGroup, mu *sync.Mutex) {
 			wg.Add(1)
 			go func(goUrl string) {
 				defer wg.Done()
-				fmt.Printf("[%s]---------------------->[%s]\n", baseURL, goUrl)
 				Crawler(goUrl, depth-1, wg, mu)
+				ConnectAndRequest(goUrl)
 			}(singleURL)
 
-			//ConnectAndRequest(singleURL)
 		}
 	}
 }
