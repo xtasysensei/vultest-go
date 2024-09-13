@@ -103,6 +103,7 @@ func PostMethod(childURL, payload string) ([]Keys, error) {
 			}
 
 			// Construct form data
+			// TODO:change it from form data to all types of data
 			formData := url.Values{}
 			for _, key := range formKeys {
 				formData.Set(key.KeyName, key.Value)
