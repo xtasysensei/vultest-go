@@ -10,7 +10,7 @@ import (
 	"github.com/anaskhan96/soup"
 )
 
-func Crawler(baseURL string, depth int, wg *sync.WaitGroup, mu *sync.Mutex) {
+func XSSCrawler(baseURL string, depth int, wg *sync.WaitGroup, mu *sync.Mutex, useragent []string) {
 	visitedURL := make(map[string]bool)
 	if depth <= 0 {
 		return
@@ -36,10 +36,10 @@ func Crawler(baseURL string, depth int, wg *sync.WaitGroup, mu *sync.Mutex) {
 			wg.Add(1)
 			go func(goUrl string) {
 				defer wg.Done()
-				Crawler(goUrl, depth-1, wg, mu)
-				ConnectAndRequest(goUrl)
+				XSSCrawler(goUrl, depth-1, wg, mu, useragent)
 			}(singleURL)
 
+			ConnectAndRequest(singleURL)
 		}
 	}
 }
