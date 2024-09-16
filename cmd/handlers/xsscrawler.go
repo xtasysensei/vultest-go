@@ -36,14 +36,10 @@ func XSSCrawler(baseURL string, depth int, wg *sync.WaitGroup, mu *sync.Mutex, u
 			wg.Add(1)
 			go func(goUrl string) {
 				defer wg.Done()
-				if depth == 0 {
-					XSSCrawler(goUrl, depth, wg, mu, useragent)
-				} else {
-					XSSCrawler(goUrl, depth-1, wg, mu, useragent)
-				}
-				ConnectAndRequest(goUrl)
+				XSSCrawler(goUrl, depth-1, wg, mu, useragent)
 			}(singleURL)
 
+			ConnectAndRequest(singleURL)
 		}
 	}
 }

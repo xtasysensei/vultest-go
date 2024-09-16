@@ -19,7 +19,7 @@ var scanCmd = &cobra.Command{
 type of vulnerabulity to be scanned for.
 For example:
 
-vultest scan --type xss --url <URL>`,
+vultest scan --type <scantype> --url <URL> --depth <depth>`,
 	Run: scanURL,
 }
 
@@ -37,20 +37,20 @@ func scanURL(cmd *cobra.Command, args []string) {
 	scanType, err := cmd.Flags().GetString("type")
 	cobra.CheckErr(err)
 	if scanType == "" {
-		emptyScan := "No Scan type(xss, sqli) was provided"
-		cobra.CheckErr(emptyScan)
+		cobra.CheckErr("No Scan type (xss, sqli) was provided")
 	}
 
 	targetUrl, err := cmd.Flags().GetString("url")
 	cobra.CheckErr(err)
 	if targetUrl == "" {
-		emptyUrl := "No Url was provided"
-		cobra.CheckErr(emptyUrl)
-
+		cobra.CheckErr("No Url was provided")
 	}
 
 	scanDepth, err := cmd.Flags().GetInt("depth")
 	cobra.CheckErr(err)
+	if scanDepth == 0 {
+		scanDepth = 5
+	}
 
 	var wg sync.WaitGroup
 	var mu sync.Mutex
@@ -76,7 +76,7 @@ func scanURL(cmd *cobra.Command, args []string) {
 		fmt.Println("+--------------------------+")
 
 	default:
-		invalidErr := `Invalid argument. use '--help' flag to check usage info`
-		cobra.CheckErr(invalidErr)
+		cobra.CheckErr(`Invalid argument. use '--help' flag to check usage info`)
+
 	}
 }
