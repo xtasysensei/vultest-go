@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -54,6 +55,33 @@ func generatePayload(eff int) (string, error) {
 
 	return "", nil
 }
+
+// func generatePayload(eff int) (string, error) {
+// 	payloads := []string{
+// 		"prompt(5000/200)",
+// 		"alert(6000/3000)",
+// 		"alert(document.cookie)",
+// 		"prompt(document.cookie)",
+// 		"console.log(5000/3000)",
+// 	}
+
+// 	switch eff {
+// 	case 1:
+// 		return "<script>" + payloads[utils.RandRange(0, 4)] + "</script>", nil
+// 	case 2:
+// 		return "<script>" + payloads[utils.RandRange(0, 4)] + "</script>", nil
+// 	case 3:
+// 		return "<script>" + payloads[utils.RandRange(0, 4)] + "</script>", nil
+// 	case 4:
+// 		return "<script>" + payloads[utils.RandRange(0, 4)] + "</script>", nil
+// 	case 5:
+// 		return "<script>" + payloads[utils.RandRange(0, 4)] + "</script>", nil
+// 	case 6:
+// 		return "<script>" + payloads[utils.RandRange(0, 4)] + "</script>", nil
+// 	default:
+// 		return "", nil
+// 	}
+// }
 
 type Keys struct {
 	KeyType string
@@ -147,11 +175,14 @@ func PostMethod(childURL, payload string) ([]Keys, error) {
 					TimeFound: time.Now(),
 					UrlInfo:   urlInfo,
 				}
+				var buffer bytes.Buffer
+				encoder := json.NewEncoder(&buffer)
+				encoder.SetEscapeHTML(false)
+				err := encoder.Encode(w)
 
-				jsondata, err := json.Marshal(w)
 				cobra.CheckErr(err)
 
-				err = utils.WriteToFile(jsondata)
+				err = utils.WriteToFile(buffer.Bytes())
 				cobra.CheckErr(err)
 
 			}
@@ -170,9 +201,10 @@ func PostMethod(childURL, payload string) ([]Keys, error) {
 
 	return allKeys, nil
 }
-func GetMethod(childURL string, payload string) ([]Keys, error) {
 
-}
+//func GetMethod(childURL string, payload string) ([]Keys, error) {
+
+//}
 
 func ConnectAndRequest(childURL string) {
 	payload, err := generatePayload(utils.RandRange(1, 6))
