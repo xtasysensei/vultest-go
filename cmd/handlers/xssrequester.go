@@ -1,17 +1,30 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"net/url"
+	"time"
 
 	"strings"
 
 	"github.com/anaskhan96/soup"
+	"github.com/spf13/cobra"
 	"github.com/xtasysensei/vultest/cmd/utils"
 )
+
+type ScanPayload struct {
+	VulnType  string
+	TimeFound time.Time
+	UrlInfo   UrlInfo
+}
+type UrlInfo struct {
+	BadURL     string
+	BadPayload string
+}
 
 func generatePayload(eff int) (string, error) {
 	payloads := []string{
@@ -21,7 +34,6 @@ func generatePayload(eff int) (string, error) {
 		"prompt(document.cookie)",
 		"console.log(5000/3000)",
 	}
-
 	if eff == 1 {
 		return "<script/>" + payloads[utils.RandRange(0, 4)] + `<\script\>`, nil
 	} else if eff == 2 {
@@ -125,6 +137,23 @@ func PostMethod(childURL, payload string) ([]Keys, error) {
 				utils.High("Detected XSS (POST) at " + childURL)
 				utils.High("Post data: " + fmt.Sprintf("%+v", formKeys))
 				xssDetected = true
+
+				urlInfo := UrlInfo{
+					BadURL:     childURL,
+					BadPayload: payload,
+				}
+				w := ScanPayload{
+					VulnType:  "Detected XSS(POST)",
+					TimeFound: time.Now(),
+					UrlInfo:   urlInfo,
+				}
+
+				jsondata, err := json.Marshal(w)
+				cobra.CheckErr(err)
+
+				err = utils.WriteToFile(jsondata)
+				cobra.CheckErr(err)
+
 			}
 
 			allKeys = append(allKeys, formKeys...)
@@ -141,6 +170,10 @@ func PostMethod(childURL, payload string) ([]Keys, error) {
 
 	return allKeys, nil
 }
+func GetMethod(childURL string, payload string) ([]Keys, error) {
+
+}
+
 func ConnectAndRequest(childURL string) {
 	payload, err := generatePayload(utils.RandRange(1, 6))
 	if err != nil {
