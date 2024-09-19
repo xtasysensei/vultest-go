@@ -89,7 +89,7 @@ type Keys struct {
 	Value   string
 }
 
-func PostMethod(childURL, payload string) ([]Keys, error) {
+func PostMethodForm(childURL, payload string) ([]Keys, error) {
 	resp, err := soup.Get(childURL)
 	if err != nil {
 		return nil, fmt.Errorf("error connecting to URL %s: %v", childURL, err)
@@ -202,7 +202,7 @@ func PostMethod(childURL, payload string) ([]Keys, error) {
 	return allKeys, nil
 }
 
-func GetMethod(childURL string, payload string) ([]Keys, error) {
+func GetMethodForm(childURL string, payload string) ([]Keys, error) {
 	resp, err := soup.Get(childURL)
 	if err != nil {
 		return nil, fmt.Errorf("error connecting to URL %s: %v", childURL, err)
@@ -256,12 +256,58 @@ func GetMethod(childURL string, payload string) ([]Keys, error) {
 			}
 
 			utils.Info("Sending payload (GET) method...")
-			resp, err := http.Get(newChildURL)
+			params := url.Values{}
+			for _, key := range formKeys {
+				params.Add(key.KeyName, key.Value)
+			}
+			queryChildURL := newChildURL + params.Encode()
+			resp, err := http.Get(queryChildURL)
 			if err != nil {
 				return nil, fmt.Errorf("failed to send GET request: %v", err)
 			}
 			defer resp.Body.Close()
+
+			// Check for SQLi
+			body, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return nil, fmt.Errorf("failed to read response body: %v", err)
+			}
+			if strings.Contains(string(body), payload) {
+				utils.High("Detected XSS (GET) at " + childURL)
+				utils.High("GET data: " + fmt.Sprintf("%+v", formKeys))
+				xssDetected = true
+
+				urlInfo := UrlInfo{
+					BadURL:     childURL,
+					BadPayload: payload,
+				}
+				w := ScanPayload{
+					VulnType:  "Detected XSS(GET)",
+					TimeFound: time.Now(),
+					UrlInfo:   urlInfo,
+				}
+				var buffer bytes.Buffer
+				encoder := json.NewEncoder(&buffer)
+				encoder.SetEscapeHTML(false)
+				err := encoder.Encode(w)
+
+				cobra.CheckErr(err)
+
+				err = utils.WriteToFile(buffer.Bytes())
+				cobra.CheckErr(err)
+
+			}
+
+			allKeys = append(allKeys, formKeys...)
 		}
+	}
+
+	if len(allKeys) == 0 {
+		return nil, fmt.Errorf("no POST forms found on the page")
+	}
+
+	if !xssDetected {
+		utils.Info("No XSS vulnerabilities detected in POST forms, but further testing is recommended")
 	}
 	return allKeys, nil
 }
@@ -272,5 +318,6 @@ func ConnectAndRequest(childURL string) {
 		log.Printf("failed to generate payload: %v", err)
 		return
 	}
-	_, _ = PostMethod(childURL, payload)
+	_, _ = PostMethodForm(childURL, payload)
+	_, _ = GetMethodForm(childURL, payload)
 }
