@@ -330,7 +330,13 @@ func GetMethod(childURL string, payload string) ([]Keys, error) {
 			if err != nil {
 				return nil, fmt.Errorf("failed to join path %s to %s: %v", childURL, linkURL, err)
 			}
-			query :=
+			//TODO: implement the correct method of checking if a url has a query
+			query :=url.QueryEscape()
+
+			if query != ""{
+				utils.Warning("Found link with query: " + utils.G + query + utils.N+ "Maybe a vulnerable XSS point")
+				queryPayload :=
+			}
 		}
 	}
 
