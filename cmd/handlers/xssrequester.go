@@ -311,7 +311,36 @@ func GetMethodForm(childURL string, payload string) ([]Keys, error) {
 	}
 	return allKeys, nil
 }
+func GetMethod(childURL string, payload string) ([]Keys, error) {
+	resp, err := soup.Get(childURL)
+	if err != nil {
+		return nil, fmt.Errorf("error connecting to URL %s: %v", childURL, err)
+	}
 
+	doc := soup.HTMLParse(resp)
+	links := doc.FindAll("a")
+
+	var allKeys []Keys
+	xssDetected := false
+
+	for _, a := range links {
+		linkURL := a.Attrs()["href"]
+		if !strings.HasPrefix(linkURL, "http;//") || !strings.HasPrefix(linkURL, "https://") || !strings.HasPrefix(linkURL, "mailto:") {
+			baseURL, err := url.JoinPath(childURL, linkURL)
+			if err != nil {
+				return nil, fmt.Errorf("failed to join path %s to %s: %v", childURL, linkURL, err)
+			}
+			//TODO: implement the correct method of checking if a url has a query
+			query :=url.QueryEscape()
+
+			if query != ""{
+				utils.Warning("Found link with query: " + utils.G + query + utils.N+ "Maybe a vulnerable XSS point")
+				queryPayload :=
+			}
+		}
+	}
+
+}
 func ConnectAndRequest(childURL string) {
 	payload, err := generatePayload(utils.RandRange(1, 6))
 	if err != nil {
