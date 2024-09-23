@@ -326,12 +326,16 @@ func GetMethod(childURL string, payload string) ([]Keys, error) {
 	for _, a := range links {
 		linkURL := a.Attrs()["href"]
 		if !strings.HasPrefix(linkURL, "http;//") || !strings.HasPrefix(linkURL, "https://") || !strings.HasPrefix(linkURL, "mailto:") {
-			baseURL, err := url.JoinPath(childURL, linkURL)
+			finalURL, err := url.JoinPath(childURL, linkURL)
 			if err != nil {
 				return nil, fmt.Errorf("failed to join path %s to %s: %v", childURL, linkURL, err)
 			}
 			//TODO: implement the correct method of checking if a url has a query
-			query :=url.QueryEscape()
+			parsedUrl ,err:=url.Parse(finalURL)
+			if err != nil{
+				return nil, fmt.Errorf("failed to parse url %s to %s: %v", finalURL, err)
+			}
+			query := parsedUrl.Query()
 
 			if query != ""{
 				utils.Warning("Found link with query: " + utils.G + query + utils.N+ "Maybe a vulnerable XSS point")
